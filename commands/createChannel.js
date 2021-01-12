@@ -34,17 +34,6 @@ class CreateChannel extends Command {
             super.logging(message.author.id, `Created new channel ${channel.name} at ${date}`);
             console.log(`Created new channel ${channel.name} at ${date}`);
         });
-
-        /*
-        permissionOverwrites: [
-                {
-                  id: message.author.id,
-                  deny: ['VIEW_CHANNEL'],
-               },
-             ],
-        */
-        //message.guild.channels.create()
-        //if(!args[1]) return message.channel.send("")
     }
 }
 

@@ -1,4 +1,5 @@
 const commandFiles = require('fs').readdirSync('./commands/').filter(file => file.endsWith('.js'));
+const NotMatchCommandError = require("./errors/NotMatchCommandError");
 
 class CmdHandler {
     constructor() {
@@ -17,6 +18,10 @@ class CmdHandler {
                 (new this.commands.Ping()).run(message, args);
             }else if (command == "create-channel" || command == "c-chl"){
                 (new this.commands.CreateChannel()).run(message, args);
+            }else if (command == "set-reminder" || command == "s-rm"){
+                (new this.commands.SetReminder()).run(message, args);
+            }else{
+                throw new NotMatchCommandError();
             }
         }catch(e){
             message.channel.send(e.message);

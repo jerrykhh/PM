@@ -1,3 +1,4 @@
 module.exports = {
-    token: 'Write your Discord Bot token here'
+    token: 'Write your Discord Bot token here',
+    prefix: '!'
 }

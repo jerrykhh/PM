@@ -1,3 +1,4 @@
+const Logging = require("../model/Logging");
 class Command {
     constructor(name, desc){
         this.name = name;
@@ -6,6 +7,10 @@ class Command {
 
     run = (message, args) => {
         throw new Error('You have to implement the method doSomething!');
+    }
+
+    logging = (user, message, command) => {
+        this.logging = new Logging(user, message, command);
     }
 
 }

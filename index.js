@@ -7,7 +7,7 @@ client.login(config.token);
 
 
 client.once('ready', () => {
-	console.log('PM discord.bot is Running at ' + (new Date()));
+    console.log('PM discord.bot is Running at ' + (new Date()));
 });
 
 client.on('message', (message) => {

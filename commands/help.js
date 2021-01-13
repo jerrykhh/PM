@@ -10,10 +10,14 @@ class Help extends Command{
     run = () => {
         if(this.args.length == 0){
             let cmd = "";
+            const maxCommandCount = 10;
+            let countCommand = 0;
             for(const file of this.commandFiles){
                 const command = require('./' + file);
                 try{
+                    if(countCommand >= maxCommandCount) break;
                     cmd += "```"+ command.help() + "\n```";
+                    countCommand++;
                 }catch(e){}
             }
             this.message.channel.send(cmd);

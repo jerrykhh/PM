@@ -36,7 +36,7 @@ class CreateChannel extends Command {
     }
 
     static help = () => {
-        return "!create-channel [channel-name] | It will create the channel, default permission is only you can view";
+        return "!create-ch [channel-name] | It will create the channel, default permission is only you can view";
     }
 }
 

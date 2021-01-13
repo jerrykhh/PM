@@ -17,12 +17,16 @@ class CmdHandler {
         try{
             if (command == "ping") {
                 (new this.commands.Ping(message, args)).run();
-            }else if (command == "create-channel" || command == "c-chl"){
+            }else if (command == "create-ch" || command == "c-ch"){
                 (new this.commands.CreateChannel(message, args)).run();
-            }else if (command == "set-reminder" || command == "s-rm"){
+            }else if (command == "set-reminder" || command == "s-rmd"){
                 (new this.commands.SetReminder(message, args)).run();
             }else if (command == "help"){
                 (new this.commands.Help(message, args, commandFiles)).run();
+            }else if (command == "set-channelname" || command == "s-chn"){
+                (new this.commands.SetChannelName(message, args)).run();
+            }else if (command == "set-channelcategroy" || command == "s-chcat"){
+                (new this.commands.SetChannelCategory(message, args)).run();
             }else{
                 throw new NotMatchCommandError();
             }

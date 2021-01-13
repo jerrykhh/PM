@@ -6,7 +6,7 @@ class Ping extends Command{
     }
 
     run = () => {
-        this.message.channel.send("pong!");
+        this.message.reply("pong!");
     }
 
     static help = () => {

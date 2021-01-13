@@ -1,16 +1,20 @@
 const Logging = require("../model/Logging");
 class Command {
-    constructor(name, desc){
-        this.name = name;
-        this.desc = desc;
+    constructor(message, args){
+        this.message = message;
+        this.args = args;
     }
 
-    run = (message, args) => {
+    run = () => {
         throw new Error('You have to implement the method doSomething!');
     }
 
-    logging = (user, message, command) => {
-        this.logging = new Logging(user, message, command);
+    logging = (command) => {
+        throw new Error('You have to implement the method doSomething!');
+    }
+
+    static help = () => {
+        throw new Error('You have to implement the method doSomething!');
     }
 
 }

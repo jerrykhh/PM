@@ -1,12 +1,16 @@
 const Command = require('./command');
 
 class Ping extends Command{
-    constructor(){
-        super("ping", "This is a ping command");
+    constructor(message, args){
+        super(message, args);
     }
 
-    run = (message, args) => {
-        message.channel.send("pong!");
+    run = () => {
+        this.message.channel.send("pong!");
+    }
+
+    static help = () => {
+        return "!ping | It will return 'pong', let you know the bot is work."
     }
 }
 

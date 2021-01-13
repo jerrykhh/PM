@@ -4,36 +4,40 @@ const CommandArgsError = require('../errors/CommandArgsError');
 const TimeFormatError = require('../errors/TimeFormatError');
 
 class SetReminder extends Command {
-    constructor() {
-        super("set-reminder", "Reminder Command");
+    constructor(message, args) {
+        super(message, args);
+        this.dateTime = new Date(args[0]);
     }
 
-    run = (message, args) => {
-        if (args.length < 1 || args.length > 4)
+    run = () => {
+        if (this.args.length < 1 || this.args.length > 4)
             throw new CommandArgsError();
 
-        let dateTime = new Date(args[0]);
-        let reminderMessage = null;
-        if (args.length == 2 || args.length == 3) {
-            const chkDateTime = new Date(args[0] + " " + args[1]);
+        this.reminderMessage = null;
+        if (this.args.length == 2 || this.args.length == 3) {
+            const chkDateTime = new Date(this.args[0] + " " + this.args[1]);
             if(chkDateTime === "Invalid Date")
-                reminderMessage = args[1];
+                this.reminderMessage = this.args[1];
             else
-                dateTime = chkDateTime;
+                this.dateTime = chkDateTime;
 
             if(args.length == 3)
-                reminderMessage = args[2]
+                this.reminderMessage = this.args[2]
         } 
 
         let scheduledJob =  schedule.scheduleJob(dateTime, () =>{
-            if(reminderMessage == null)
-                message.channel.send("Today has scheduled the reminder. (" + dateTime + ")");
+            if(this.reminderMessage == null)
+                this.message.channel.send("Today has scheduled the reminder. (" + this.dateTime + ")");
             else
-                message.channel.send("Remind: " + reminderMessage);
+                this.message.channel.send("Remind: " + this.reminderMessage);
         });
 
-        message.channel.send("This channel is set the reminder at " + dateTime);
+        this.message.channel.send("This channel is set the reminder at " + this.dateTime);
 
+    }
+
+    static help = () => {
+        return "!set-reminder [date (YYYY-MM-dd)] [[HH:mm || HH:mm:ss (option)] || Reminder Message (option)] [Reminder Message (option), if set the time]"
     }
 
 }

@@ -3,37 +3,40 @@ const PermissionError = require('../errors/PermissionError');
 const CommandArgsError = require('../errors/CommandArgsError');
 
 class CreateChannel extends Command {
-    constructor() {
-        super("create-channel", "Create the text channel command");
+    constructor(message, args) {
+        super(message, args);
     }
 
-    run = (message, args) => {
+    run = () => {
 
-        if (!message.member.hasPermission('MANAGE_CHANNELS'))
+        if (!this.message.member.hasPermission('MANAGE_CHANNELS'))
             throw new PermissionError("You don't have permission to create the channel.");
 
-        if (args.length < 1)
+        if (this.args.length < 1)
             throw new CommandArgsError();
 
         const date = new Date();
         this.calendarDate = date.getFullYear() + "-" + (("0" + (date.getMonth() + 1)).slice(-2)) + "-" + date.getDate();
-        message.guild.channels.create(this.calendarDate + "-" + args[0], {
+        this.message.guild.channels.create(this.calendarDate + "-" + args[0], {
             type: 'text',
             permissionOverwrites: [
                 {
-                    id: message.author.id,
+                    id: this.message.author.id,
                     allow: ['VIEW_CHANNEL'],
                 },
                 {
-                    id: message.guild.id,
+                    id: this.message.guild.id,
                     deny: ['VIEW_CHANNEL'],
                 },
             ]
         }).then(channel => {
             channel.send(`${channel.name} created at ${date}`);
-            super.logging(message.author.id, `Created new channel ${channel.name} at ${date}`);
             console.log(`Created new channel ${channel.name} at ${date}`);
         });
+    }
+
+    static help = () => {
+        return "!create-channel [channel-name] | It will create the channel, default permission is only you can view";
     }
 }
 

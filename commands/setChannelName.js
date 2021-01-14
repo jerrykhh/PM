@@ -20,7 +20,7 @@ class SetChannelName extends Command{
     }
 
     static help = () => {
-        return "set-channlname [new change name] | it will change the channel name."
+        return "!set-channlname [new change name] | it will change the channel name."
     }
 
 }

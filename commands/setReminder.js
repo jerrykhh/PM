@@ -1,32 +1,36 @@
 const Command = require('./command');
 const schedule = require("node-schedule");
 const CommandArgsError = require('../errors/CommandArgsError');
-const TimeFormatError = require('../errors/TimeFormatError');
+const DateTimeFormatError = require('../errors/DateTimeFormatError');
 
 class SetReminder extends Command {
     constructor(message, args) {
         super(message, args);
-        this.dateTime = new Date(args[0]);
+        this.dateTime = new Date(args[0] + " 00:00:00");
+        if(this.dateTime === "Invalid Date")
+            throw new DateTimeFormatError();
     }
 
     run = () => {
-        if (this.args.length < 1 || this.args.length > 4)
+        if (this.args.length < 1)
             throw new CommandArgsError();
-
-        this.reminderMessage = null;
-        if (this.args.length == 2 || this.args.length == 3) {
+        this.reminderMessage = "";
+        if (this.args.length > 2) {
             const chkDateTime = new Date(this.args[0] + " " + this.args[1]);
-            if(chkDateTime === "Invalid Date")
-                this.reminderMessage = this.args[1];
-            else
+            if(chkDateTime === "Invalid Date"){
+                for(let i = 1; i < this.args.length; i++)
+                    this.reminderMessage += this.args[i] + " ";
+            }else if (chkDateTime != "Invalid Date"){
                 this.dateTime = chkDateTime;
+            }
 
-            if(args.length == 3)
-                this.reminderMessage = this.args[2]
+            if(chkDateTime != 'Invalid Date' && this.args.length >= 3){
+                for(let i = 2; i < this.args.length; i++)
+                    this.reminderMessage += this.args[i] + " ";
+            }
         } 
-
-        let scheduledJob =  schedule.scheduleJob(dateTime, () =>{
-            if(this.reminderMessage == null)
+        let scheduledJob =  schedule.scheduleJob(this.dateTime, () =>{
+            if(this.reminderMessage == "")
                 this.message.channel.send("Today has scheduled the reminder. (" + this.dateTime + ")");
             else
                 this.message.channel.send("Remind: " + this.reminderMessage);

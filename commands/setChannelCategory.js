@@ -22,8 +22,9 @@ class SetChannelCategory extends Command{
         }else if (this.args.length == 1){
             let index = 0;
             let foundChannel = null;
+            
             for(const channel of this.message.guild.channels.cache){
-                if(channel[1].type === 'category'){
+                if(channel[1].type === 'category'){                    
                     if(index == this.args[0]){
                         foundChannel = channel;
                         break;
@@ -35,7 +36,9 @@ class SetChannelCategory extends Command{
             if(foundChannel == null)
                 throw new ChannelNotFoundError();
             
+            const permission = this.message.channel.permissionOverwrites;
             this.message.channel.setParent(foundChannel[1].id);
+            this.message.channel.overwritePermissions(permission);
             this.message.reply("The Channel Category is change to **" + foundChannel[1].name + "**");
 
         }else{

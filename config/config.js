@@ -1,4 +1,5 @@
 module.exports = {
     token: 'Write your Discord Bot token here',
-    prefix: '!'
+    prefix: '!',
+    displayMaxValue: 30
 }

@@ -2,7 +2,7 @@ const commandFiles = require('fs').readdirSync('./commands/').filter(file => fil
 const NotMatchCommandError = require("./errors/NotMatchCommandError");
 
 class CmdHandler {
-    constructor() {
+    constructor(client) {
         this.commands = [];
         for (const file of commandFiles) {
             const command = require('./commands/' + file);
@@ -27,11 +27,15 @@ class CmdHandler {
                 (new this.commands.SetChannelName(message, args)).run();
             }else if (command == "set-channelcategroy" || command == "s-chcat"){
                 (new this.commands.SetChannelCategory(message, args)).run();
+            }else if (command == "set-nickname" || command == "s-nickname"){
+                (new this.commands.SetNickname(message, args)).run();
+            }else if (command == "get-users" || command == "g-users"){
+                (new this.commands.GetUsers(message, args)).run();
             }else{
                 throw new NotMatchCommandError();
             }
         }catch(e){
-            message.channel.send(e.message);
+            message.reply(e.message);
         }
     }
 }

@@ -15,6 +15,15 @@ class Users {
         return Users.instance;
     }
 
+    static initUser = async (guild) => {
+        await guild.members.fetch().then((users)=>{
+            for (const user of users){
+                Users.getInstance().append(user);
+            }
+            //console.log(Users.getInstance().list);
+        });
+    }
+
 }
 
 module.exports = Users;
@@ -46,6 +55,10 @@ class UsersInstance {
         }catch(e){
             throw new PageNumberError();
         }
+    }
+
+    getAllUserList = () => {
+        return this.list.getList();
     }
 
 }

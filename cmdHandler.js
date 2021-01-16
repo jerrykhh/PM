@@ -31,6 +31,8 @@ class CmdHandler {
                 (new this.commands.SetNickname(message, args)).run();
             }else if (command == "get-users" || command == "g-users"){
                 (new this.commands.GetUsers(message, args)).run();
+            }else if (command == "blacklist" || command == "blt"){
+                (new this.commands.Blacklist(message, args)).run();
             }else{
                 throw new NotMatchCommandError();
             }

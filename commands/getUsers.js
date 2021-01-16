@@ -9,41 +9,42 @@ class GetUsers extends Command {
     }
 
     run = () => {
+        
         if (Users.getInstance().size() == 0)
-            this.#initUsers();
-
-        if (this.args[0] === "update") {
+            Users.initUser(this.message.guild).then(() => {
+                this.#sendMessage();
+            });
+        else if(this.args[0] === "update"){
             Users.getInstance().clearData();
-            this.#initUsers();
-            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(0)));
-        } else if (this.args.length == 0) {
-            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(0)));
-        } else if (this.args[0] != "update") {
-            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(this.args[0])));
+            Users.initUser(this.message.guild).then(() => {
+                this.#sendMessage();
+            });
+        }else{
+            this.#sendMessage();
         }
 
     }
 
-    #initUsers = () => {
-        let index = 0;
-        for (const user of this.message.guild.members.cache)
-            Users.getInstance().append(user[1].user);
-        this.size = index;
+    #sendMessage = () => {
+        console.log('send message');
+        if (this.args.length == 0 || this.args[0] == "update") {
+            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(0)));
+        } else if (this.args[0] != "update") {
+            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(this.args[0])));
+        } 
     }
 
     #DisplayUsers = (index, list) => {
-        let users = "```index | Username | ID\n";
+        console.log("display");
+        let users = "```index | Username(Nickname) | ID\n";
         for (const userObj of list) {
-            console.log(userObj);
             const user = userObj.obj;
-            console.log(user);
             if (index < config.displayMaxValue) {
-                (!user.bot) ?
-                    users += `${index} | ${user.username}\#${user.discriminator}  | ${user.id}\n`
-                    : users += `${index} | ${user.username}\#${user.discriminator}(BOT)  | ${user.id}\n`;
+                (!user[1].user.bot) ?
+                    users += `${index} | ${user[1].user.username}\#${user[1].user.discriminator}${(user[1].nickname) ? "("+user[1].nickname+")": ""}  | ${user[0]}\n`
+                    : users += `${index} | ${user[1].user.username}\#${user[1].user.discriminator}(BOT)  | ${user[0]}\n`;
             }
             index++;
-            console.log(index);
         }
         users += "```";
         if (index > config.displayMaxValue)

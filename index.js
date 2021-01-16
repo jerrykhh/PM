@@ -3,6 +3,8 @@ const config = require('./config/config.js');
 const CmdHandler = require('./cmdHandler.js');
 const cmdController = new CmdHandler();
 const client = new Discord.Client();
+const Users = require('./statics/Users');
+
 client.login(config.token);
 
 client.once('ready', () => {
@@ -11,5 +13,10 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
     if(!message.content.startsWith(config.prefix) || message.author.bot) return;
-    cmdController.cmd(message);
+    if (Users.getInstance().size() == 0) 
+        Users.initUser(message.guild).then(() => {
+            cmdController.cmd(message);
+        })
+    else
+        cmdController.cmd(message);
 });

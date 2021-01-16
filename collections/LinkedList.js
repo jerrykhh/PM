@@ -68,15 +68,23 @@ class LinkedList {
             if(count >= startCount)
                 objList.push(current);
             current = current.next;
-            console.log(current);
             count++;
-            console.log(count - endCount)
-            if(this.tail == null && (count - endCount) < -1)
-                throw new LinkedListOutOfBoundsError()
         }
 
         return objList;
     }
+
+    getList = () => {
+        let objList = [];
+        let current = this.head;
+        while(current != this.tail){
+            objList.push(current);
+            current = current.next;
+        }
+        return objList;
+    }
+
+
 }
 
 module.exports = LinkedList;

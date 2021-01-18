@@ -18,7 +18,7 @@ class SetNickname extends Command{
         }else if(this.args.length == 2){
             try{
                 let index = 0;
-                for( const userNode of Users.getInstance().getAllUserList()){
+                for( const userNode of Users.getInstance().getAllDataList()){
                     const user = userNode.obj;
                     if(user[0] == this.args[1] || index == this.args[1] ){
                         this.#awaitSetNickname(user[1], this.args[0]);

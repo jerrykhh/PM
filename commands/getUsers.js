@@ -26,30 +26,11 @@ class GetUsers extends Command {
     }
 
     #sendMessage = () => {
-        console.log('send message');
         if (this.args.length == 0 || this.args[0] == "update") {
-            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(0)));
+            this.message.reply("\n" + Users.getInstance().displayUsers(0, Users.getInstance().getDataList(0)));
         } else if (this.args[0] != "update") {
-            this.message.reply("\n" + this.#DisplayUsers(0, Users.getInstance().getUserList(this.args[0])));
+            this.message.reply("\n" + Users.getInstance().displayUsers(0, Users.getInstance().getDataList(this.args[0])));
         } 
-    }
-
-    #DisplayUsers = (index, list) => {
-        console.log("display");
-        let users = "```index | Username(Nickname) | ID\n";
-        for (const userObj of list) {
-            const user = userObj.obj;
-            if (index < config.displayMaxValue) {
-                (!user[1].user.bot) ?
-                    users += `${index} | ${user[1].user.username}\#${user[1].user.discriminator}${(user[1].nickname) ? "("+user[1].nickname+")": ""}  | ${user[0]}\n`
-                    : users += `${index} | ${user[1].user.username}\#${user[1].user.discriminator}(BOT)  | ${user[0]}\n`;
-            }
-            index++;
-        }
-        users += "```";
-        if (index > config.displayMaxValue)
-            users += "\n!get-users [pageNumber], now pageno. " + (index / config.displayMaxValue);
-        return users;
     }
 
     static help = () => {

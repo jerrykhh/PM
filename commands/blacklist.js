@@ -18,7 +18,7 @@ class Blacklist extends Command {
             let index = 0;
             let found = false;
             try {
-                for (const userNode of Users.getInstance().getAllUserList()) {
+                for (const userNode of Users.getInstance().getAllDataList()) {
                     const user = userNode.obj;
                     if (user[0] == this.args[0] || index == this.args[0]) {
                         this.#awaitBanUser(user);
@@ -37,9 +37,10 @@ class Blacklist extends Command {
 
     #awaitBanUser = (user) => {
         console.log(user);
-        this.#banUser(user).then(() => {
+        this.#banUser(user[0]).then(() => {
             this.message.reply(`User: ${user[1].user.username}\#${user[1].user.discriminator} (${user[0]})  is banned`)
         }).catch((error) => {
+            this.message.reply(err);
             this.message.reply(`You don't have permission to ban ${user[1].user.username}\#${user[1].user.discriminator} `);
         })
     }

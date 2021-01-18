@@ -33,6 +33,10 @@ class CmdHandler {
                 (new this.commands.GetUsers(message, args)).run();
             }else if (command == "blacklist" || command == "blt"){
                 (new this.commands.Blacklist(message, args)).run();
+            }else if (command == "remove-blacklist" || command == "rm-blt"){
+                (new this.commands.RemoveBlacklist(message, args)).run();
+            }else if (command == "get-blacklist" || command == "g-blt"){
+                (new this.commands.GetBlacklist(message, args)).run();
             }else{
                 throw new NotMatchCommandError();
             }
